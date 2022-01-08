@@ -16,8 +16,10 @@ Page({
     wx.navigateTo({
       url: '../logs/logs',
     })
+  
   },
   onLoad() {
+    this.updataMotto()
     // @ts-ignore
     if (wx.getUserProfile) {
       this.setData({
@@ -45,5 +47,23 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  },
+  updataMotto(){ 
+    let shouldStop=false
+    setTimeout(()=>{
+      shouldStop = true
+    },10000)
+    let count=0
+    const update = () => {
+      count++
+      if(!shouldStop){
+        this.setData({
+          motto: `Updata count: ${count}`,
+        },() =>{
+          update()
+        })
+      }
+    }
+    update()
+  },
 })
