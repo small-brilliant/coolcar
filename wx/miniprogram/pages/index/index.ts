@@ -66,4 +66,7 @@ Page({
     }
     update()
   },
+  test(){
+    
+  }
 })
