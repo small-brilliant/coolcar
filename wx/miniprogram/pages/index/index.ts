@@ -1,8 +1,6 @@
 // index.ts
 // 获取应用实例
 
-import { getUserProfile } from "../../utils/util"
-
 const app = getApp<IAppOption>()
 const img = '/resources/car.jpg'
 
@@ -13,6 +11,7 @@ Page({
     longitude: 113.324520,
     isOverLooking: true,
     is3D: false,
+    avatarUrl:'',
     markers:[
       {
         id: 0,
@@ -55,6 +54,13 @@ Page({
       enableSatellite: false,
       enableTraffic: false,
     },
+  },
+  onLoad(){
+    if (app.globalData.userInfo) {
+      this.setData({
+        avatarUrl: app.globalData.userInfo.avatarUrl
+      })
+    }
   },
   onMyLocationTap(){
     wx.getLocation({

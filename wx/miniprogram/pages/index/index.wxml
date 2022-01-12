@@ -10,11 +10,9 @@
   markers="{{markers}}"
 >
   <cover-view class="icon-container">
-    <cover-image src="/resources/account.png"></cover-image>
-    <cover-image 
-    src="/resources/my_location.png"
-    bindtap="onMyLocationTap"
-    ></cover-image>
+    <cover-image wx:if="{{!avatarUrl}}" src="/resources/account.png"></cover-image>
+    <cover-image wx:else src="{{avatarUrl}}" class="cu-avatar round lg" style="width:60rpx;height:60rpx;"/>
+    <cover-image src="/resources/my_location.png" bindtap="onMyLocationTap"/>
   </cover-view>
 
   <cover-view class="btn-container bg-grey round" bindtap="onScanClicked">

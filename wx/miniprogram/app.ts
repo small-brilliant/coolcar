@@ -1,29 +1,14 @@
-import { getSetting, getUserProfile} from "./utils/util"
 
 // app.ts
 App<IAppOption>({
   globalData: {
-    userInfo: new Promise((resolve, reject)=>{
-      // 获取用户信息
-      getSetting().then(res => {
-        if (res.authSetting['scope.userInfo']) {
-          return getUserProfile()
-        }
-        return undefined
-      }).then(res => {
-        if (!res){
-          return
-        }
-        resolve(res.userInfo)
-      }).catch(reject)
-    })
+    userInfo: wx.getStorageSync('storage_info') || undefined
   },
   onLaunch() {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
     // 登录
     wx.login({
       success: res => {

@@ -1,4 +1,7 @@
 /* pages/lock/lock.wxss */
+.container{
+    height: 900rpx;
+}
 .lock-car{
     display: flex;
     flex-direction: column;
@@ -8,7 +11,12 @@
 .lock-btn{
     position: absolute;
     bottom: 106rpx;
+    width: 40%;
 }
 .lock-car view{
     font-size: 30rpx;
+}
+.lock-car image{
+    width: 600rpx;
+    height: 360rpx;
 }

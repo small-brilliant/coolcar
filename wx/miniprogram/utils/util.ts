@@ -17,23 +17,4 @@ const formatNumber = (n: number) => {
   const s = n.toString()
   return s[1] ? s : '0' + s
 }
-export function getSetting(): Promise<WechatMiniprogram.GetSettingSuccessCallbackResult> {
-  return new Promise((resolve, reject) => {
-    wx.getSetting({
-      success: resolve,
-      fail: reject,
-    })
-  })
-}
-
-export function getUserProfile(): Promise<WechatMiniprogram.GetUserProfileSuccessCallbackResult> {
-  return new Promise((resolve, reject) => {
-    wx.getUserProfile({
-      lang: 'zh_CN',
-      desc: "展示用户信息test",
-      success: resolve,
-      fail: reject,
-    })
-  })
-}
 

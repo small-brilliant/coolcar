@@ -5,7 +5,11 @@
         <view class="margin-top-xl">驾驶安全是用户的责任</view>
         <view class="margin-top-sm">请将车辆停放在停车位内，不然扣钱！</view>
     </view>
+    <button wx:if="{{!avatarUrl}}" class="cu-avatar round lg bg-grey margin-xl" bindtap="onGetUserInfo">
+        <text class="cuIcon-people"></text>
+    </button>
+    <image wx:else src="{{avatarUrl}}" class="cu-avatar round lg bg-grey margin-xl"/>
     <view class="lock-btn">
-        <button class="cu-btn bg-grey lg">立即开锁</button>
+        <button class="cu-btn bg-grey lg" style="width:100%">立即开锁</button>
     </view>
 </view>

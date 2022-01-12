@@ -14,7 +14,7 @@ page {
     width: 87rpx;
     margin-top: 30rpx;
     height: 136rpx;
-    opacity: .6;
+    opacity: .7;
 }
 .icon-container cover-image{
     width: 60rpx;
