@@ -1,0 +1,14 @@
+/* pages/lock/lock.wxss */
+.lock-car{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.lock-btn{
+    position: absolute;
+    bottom: 106rpx;
+}
+.lock-car view{
+    font-size: 30rpx;
+}

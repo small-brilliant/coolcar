@@ -1,6 +1,23 @@
+import { getSetting, getUserProfile} from "./utils/util"
+
 // app.ts
 App<IAppOption>({
-  globalData: {},
+  globalData: {
+    userInfo: new Promise((resolve, reject)=>{
+      // 获取用户信息
+      getSetting().then(res => {
+        if (res.authSetting['scope.userInfo']) {
+          return getUserProfile()
+        }
+        return undefined
+      }).then(res => {
+        if (!res){
+          return
+        }
+        resolve(res.userInfo)
+      }).catch(reject)
+    })
+  },
   onLaunch() {
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
@@ -12,7 +29,7 @@ App<IAppOption>({
       success: res => {
         console.log(res.code)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      },
+      }
     })
-  },
+  }
 })
