@@ -10,6 +10,6 @@
     </button>
     <image wx:else src="{{avatarUrl}}" class="cu-avatar round lg bg-grey margin-xl"/>
     <view class="lock-btn">
-        <button class="cu-btn bg-grey lg" style="width:100%">立即开锁</button>
+        <button class="cu-btn bg-grey lg" style="width:100%" bindtap="onUnlockTap">立即开锁</button>
     </view>
 </view>

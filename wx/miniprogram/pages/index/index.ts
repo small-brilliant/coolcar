@@ -6,9 +6,9 @@ const img = '/resources/car.jpg'
 
 Page({
   data: {
-    scale: 20,
-    latitude: 26.099994,
-    longitude: 113.324520,
+    scale: 16,
+    latitude: 39.92,
+    longitude: 116.46,
     isOverLooking: true,
     is3D: false,
     avatarUrl:'',
@@ -80,13 +80,41 @@ Page({
     })
   },
   onScanClicked(){
+    //TODO: get car id from scan result
+    const carId = 'car123'
+    const redirectUrl = `/pages/lock/lock?car_id=${carId}`
+
     wx.scanCode({
       success: ()=>{
         wx.navigateTo({
-          url: '/pages/register/register'
+          url: `/pages/register/register?redirectUrl=${encodeURIComponent(redirectUrl)}`
         })
       },
       fail: console.error,
+    })
+  },
+  onMyTrips(){
+    wx.navigateTo({
+      url:'/pages/mytrips/mytrips'
+    })
+  },
+  onGetUserInfo(){
+    const app = getApp<IAppOption>()
+    console.log('onGetUserInfo')
+    wx.getUserProfile({
+      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        console.log(res)
+        app.globalData.userInfo = res.userInfo
+        this.setData({
+          avatarUrl: res.userInfo.avatarUrl
+        })
+        wx.setStorageSync('storage_info', res.userInfo)
+      },
+      fail:(res)=>{
+        // debugger
+        console.log(res)
+      }
     })
   },
   moveCars() {

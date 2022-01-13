@@ -1,5 +1,6 @@
 // pages/register/register.ts
 Page({
+  redirectUrl:'',
   data: {
     genders: ['未知','男','女','其他'],
     genderIndex: 0,
@@ -34,9 +35,12 @@ Page({
     this.setData({
       state: "VERIFIED"
     })
-    wx.redirectTo({
-      url:'/pages/lock/lock',
-    })
+    if (this.redirectUrl){
+      wx.redirectTo({
+        url: this.redirectUrl,
+      })
+    }
+    
   },
   onResubmit(){
     this.setData({
@@ -57,8 +61,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-
+  onLoad(opt) {
+    if (opt.redirectUrl){
+      this.redirectUrl = decodeURIComponent(opt.redirectUrl)
+    }
   },
 
   /**
