@@ -1,3 +1,6 @@
+import { routing } from "../../utils/routing"
+
+
 const centPerSec = 0.7
 
 function formatDuration(sec: number){
@@ -32,8 +35,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-    console.log("tripId:",)
+  onLoad(opt: Record<'trip_id',string>) {
+    const o: routing.DrivingOpts = opt
+    console.log("tripId is:",o.trip_id)
     this.setupLocationUpdator(),
     this.setupTimer()
   },

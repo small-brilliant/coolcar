@@ -1,6 +1,8 @@
 // index.ts
 // 获取应用实例
 
+import { routing } from "../../utils/routing"
+
 const app = getApp<IAppOption>()
 const img = '/resources/car.jpg'
 
@@ -82,12 +84,17 @@ Page({
   onScanClicked(){
     //TODO: get car id from scan result
     const carId = 'car123'
-    const redirectUrl = `/pages/lock/lock?car_id=${carId}`
+    const redirectUrl = routing.lock({
+      car_id: carId,
+    })
+    console.log(redirectUrl)
 
     wx.scanCode({
       success: ()=>{
         wx.navigateTo({
-          url: `/pages/register/register?redirectUrl=${encodeURIComponent(redirectUrl)}`
+          url: routing.register({
+            redirectURL: redirectUrl,
+          })
         })
       },
       fail: console.error,
@@ -95,7 +102,7 @@ Page({
   },
   onMyTrips(){
     wx.navigateTo({
-      url:'/pages/mytrips/mytrips'
+      url:routing.mytrips()
     })
   },
   onGetUserInfo(){

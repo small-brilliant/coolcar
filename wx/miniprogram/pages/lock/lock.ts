@@ -1,3 +1,5 @@
+import { routing } from "../../utils/routing"
+
 // pages/lock/lock.ts
 Page({
   /**
@@ -6,8 +8,9 @@ Page({
   data: {
     avatarUrl:'',
   },
-  onLoad(opt){
-    console.log("current carId:",opt.car_id)
+  onLoad(opt: Record<'car_id',string>){
+    const o: routing.LockOpts = opt
+    console.log("current carId:",o.car_id)
     const app = getApp<IAppOption>()
     console.log(app.globalData.userInfo)
     if (app.globalData.userInfo) {
@@ -34,7 +37,10 @@ Page({
 
         setTimeout(() => {
           wx.redirectTo({
-            url:`/pages/driving/driving?trip-id=${tripId}`,
+            // url:`/pages/driving/driving?trip-id=${tripId}`,
+            url: routing.driving({
+              trip_id: tripId
+            }),
             complete: ()=>{
               wx.hideLoading()
             }
