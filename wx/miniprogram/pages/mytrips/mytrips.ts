@@ -1,5 +1,14 @@
 import { routing } from "../../utils/routing"
 
+interface Trip {
+  id: string
+  start: string
+  end: string
+  duration: string
+  fee: string
+  distance: string
+  status: string
+}
 // pages/mytrips/mytrips.ts
 Page({
 
@@ -13,6 +22,7 @@ Page({
     duration:500,
     circular:false,
     vertical: false,
+    scrollIntoView: 0,
     promotionItems: [
       {
         promotionID:1,
@@ -26,7 +36,9 @@ Page({
         promotionID:3,
         img:'https://img2.sycdn.imooc.com/61df86b10001e3d217920764.jpg',
       }
-    ]
+    ],
+    trips: [] as Trip[],
+    tripsHeight: 0,
   },
 
   onPromotoinItemTap(e: any){
@@ -44,14 +56,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-
+    this.populateTrips()
   },
-
+  populateTrips(){
+    const trips: Trip[] = []
+    for (let i = 0 ; i < 10 ; i++){
+      trips.push({
+        id: (10001+i).toString(),
+        start:'东方明珠',
+        end: '迪士尼',
+        distance: '22.0公里',
+        duration:'0时52分',
+        fee: '120.00元',
+        status: '已完成',
+      })
+    }
+    this.setData({
+      trips,
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    wx.createSelectorQuery().select("#heading").boundingClientRect(rect =>{
+      this.setData({
+        tripsHeight: wx.getSystemInfoSync().windowHeight - rect.height
+      })
+    }).exec()
   },
 
   /**

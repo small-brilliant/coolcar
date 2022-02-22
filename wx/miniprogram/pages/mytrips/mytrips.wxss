@@ -11,3 +11,39 @@ swiper{
     align-items: center;
     justify-content: flex-end;
 }
+
+.trip{
+    border-radius: 25rpx;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: baseline;
+}
+.trip_details{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+.trip_details_l_row{
+    display: flex;
+}
+.trip_details_l_row{
+    margin-bottom: 10rpx;
+}
+.mytrips-head{
+    position: absolute;
+    left: 50rpx;
+    font-weight: bold;
+}
+.bar{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.bar_id{
+    display: flex;
+    align-items: center;
+    font-size: 35rpx;
+}
