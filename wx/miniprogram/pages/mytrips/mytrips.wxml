@@ -14,7 +14,7 @@
     </swiper-item>
 </swiper>
 <view class="mytrips-profile margin-top-xl margin-right-xl margin-bottom" style="margin-left:400rpx;">
-    <view class="mytrips-head text-xl">我的行程</view>
+    <view class="mytrips-head text-xl">我的行程</view>  
     <button wx:if="{{!avatarUrl}}" class="cu-avatar round lg bg-grey" bindtap="onGetUserInfo">
         <text class="cuIcon-people"></text>
     </button>
@@ -22,34 +22,46 @@
     <view class="mytrips-profile" bindtap="onRegisterTap">驾驶资格未认证</view>
 </view>
 </view>
-<scroll-view scroll-y scroll-with-animation enable-back-to-top 
-             style="height:{{tripsHeight}}px"
-             scroll-into-view="{{scrollIntoView}}">
-    <view wx:for="{{trips}}" wx:key="id" class="padding-bottom padding-lr" id="main-{{item.id}}">
-            <view class="trip solid-bottom bg-white padding-tb">
-                <view class="bar margin-bottom padding-lr">
-                    <view class="bar_id"><text class="cuIcon-title text-green"></text><view >{{item.id}}</view></view>
-                    <view class="trip_status">{{item.status}}</view>
-                </view>
-                <view class="trip_details padding-lr">
-                    <view class="trip_details_l padding-lr">
-                        <view class="trip_details_l_row">
-                            <view class class="margin-right-sm">起点:</view><view class="text-black text-bold">{{item.start}}</view>
+<view class="nav-container">
+    <swiper duration="500" display-multiple-items="{{navCount}}" vertical
+    class="bg-white nav" style="height:{{tripsHeight}}px" current-item-id="{{navScroll}}">
+        <swiper-item class="cu-item  {{navSel===item.id?'text-green':''}}" wx:for="{{navItems}}" wx:key="id" 
+        id="{{item.id}}" item-id="{{item.id}}" data-main-id="{{item.mainId}}" bindtap="onNavItemTap">
+            <view >{{item.label}}</view>
+            <view wx:if="{{navSel===item.id}}" class="cur"></view>
+        </swiper-item>
+    </swiper>
+    <scroll-view scroll-y scroll-with-animation enable-back-to-top 
+                style="height:{{tripsHeight}}px"
+                scroll-into-view="{{mainScroll}}"
+                bindscroll="onMainScroll">
+        <view wx:for="{{mainItems}}" wx:key="id" class="padding-bottom padding-lr main_items" 
+        id="{{item.id}}" data-nav-id="{{item.navId}}" data-nav-scroll-id="{{item.navScrollId}}">
+                <view class="trip solid-bottom bg-white padding-tb">
+                    <view class="bar margin-bottom padding-lr">
+                        <view class="bar_id"><text class="cuIcon-title text-green"></text><view >{{item.data.id}}</view></view>
+                        <view class="trip_status">{{item.data.status}}</view>
+                    </view>
+                    <view class="trip_details padding-lr">
+                        <view class="trip_details_l padding-lr">
+                            <view class="trip_details_l_row">
+                                <view class class="margin-right-sm">起点:</view><view class="text-black text-bold">{{item.data.start}}</view>
+                            </view>
+                            <view class="trip_details_l_row">
+                                <view class class="margin-right-sm">终点:</view><view class="text-black text-bold">{{item.data.end}}</view>
+                            </view>
+                            <view class="trip_details_l_row">
+                                <view class class="margin-right-sm">距离:</view><view class="text-black text-bold">{{item.data.distance}}</view>
+                            </view>
+                            <view class="trip_details_l_row">
+                                <view class class="margin-right-sm">时间:</view><view class="text-black text-bold">{{item.data.duration}}</view>
+                            </view>
                         </view>
-                        <view class="trip_details_l_row">
-                            <view class class="margin-right-sm">终点:</view><view class="text-black text-bold">{{item.end}}</view>
-                        </view>
-                        <view class="trip_details_l_row">
-                            <view class class="margin-right-sm">距离:</view><view class="text-black text-bold">{{item.distance}}</view>
-                        </view>
-                        <view class="trip_details_l_row">
-                            <view class class="margin-right-sm">时间:</view><view class="text-black text-bold">{{item.duration}}</view>
+                        <view class="trip_details_r">
+                            <text class="text-xxl text-black text=bold text-price">{{item.data.fee}}</text>
                         </view>
                     </view>
-                    <view class="trip_details_r">
-                        <text class="text-xxl text-black text=bold text-price">{{item.fee}}</text>
-                    </view>
                 </view>
-            </view>
-    </view>
-</scroll-view>
+        </view>
+    </scroll-view>
+</view>

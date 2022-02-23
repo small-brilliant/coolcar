@@ -9,12 +9,34 @@ interface Trip {
   distance: string
   status: string
 }
+interface MainItem{
+  id: string
+  navId: string
+  navScrollId: string
+  data: Trip
+}
+interface NavItem{
+  id: string
+  mainId: string
+  label: string
+}
+interface MainItemQueryResult{
+  id: string
+  top: number
+  dataset:{
+    navId: string
+    navScrollId: string
+  }
+}
 // pages/mytrips/mytrips.ts
 Page({
 
   /**
    * 页面的初始数据
    */
+  scrollStates: {
+    mainItems: [] as MainItemQueryResult[],
+  },
   data: {
     indicatorDots: true,
     autoplay:true,
@@ -22,7 +44,7 @@ Page({
     duration:500,
     circular:false,
     vertical: false,
-    scrollIntoView: 0,
+    mainScroll: "",
     promotionItems: [
       {
         promotionID:1,
@@ -37,7 +59,11 @@ Page({
         img:'https://img2.sycdn.imooc.com/61df86b10001e3d217920764.jpg',
       }
     ],
-    trips: [] as Trip[],
+    mainItems: [] as MainItem[],
+    navItems: [] as NavItem[],
+    navCount: 0,
+    navSel:'',
+    navScroll: '',
     tripsHeight: 0,
   },
 
@@ -59,20 +85,54 @@ Page({
     this.populateTrips()
   },
   populateTrips(){
-    const trips: Trip[] = []
-    for (let i = 0 ; i < 10 ; i++){
-      trips.push({
-        id: (10001+i).toString(),
-        start:'东方明珠',
-        end: '迪士尼',
-        distance: '22.0公里',
-        duration:'0时52分',
-        fee: '120.00元',
-        status: '已完成',
-      })
+    const mainItems: MainItem[] = []
+    const navItems: NavItem[] = []
+    let navSel= ''
+    let prevNav = ''
+    for (let i = 0; i < 100 ; i++){
+      if (!prevNav) {
+        prevNav = 'nav-'+i
+      }
+        mainItems.push({
+            id:'main-'+i,
+            navId:'nav-'+i,
+            navScrollId: prevNav,
+            data: {
+                id: (10001+i).toString(),
+                start:'东方明珠',
+                end: '迪士尼',
+                distance: '22.0公里',
+                duration:'0时52分',
+                fee: '120.00元',
+                status: '已完成',
+    		    },
+        })
+        navItems.push({
+            id: 'nav-'+i,
+    		    mainId: 'main-'+i,
+    		    label: (10001+i).toString(),
+        })
+        if (i===0){
+          navSel = 'nav-'+i
+        }
+        prevNav = 'nav-'+i
     }
     this.setData({
-      trips,
+        mainItems,
+        navItems,
+        navSel,
+    },() =>{
+      this.prepareScrollstatus()
+    })
+  },
+  prepareScrollstatus(){
+    wx.createSelectorQuery().selectAll('.main_items').fields({
+      id: true,
+      dataset:true,
+      rect: true,
+    }).exec(res =>{
+      console.log(res)
+      this.scrollStates.mainItems = res[0]
     })
   },
   /**
@@ -80,12 +140,39 @@ Page({
    */
   onReady() {
     wx.createSelectorQuery().select("#heading").boundingClientRect(rect =>{
+      const height = wx.getSystemInfoSync().windowHeight - rect.height
       this.setData({
-        tripsHeight: wx.getSystemInfoSync().windowHeight - rect.height
+        tripsHeight: height,
+        navCount: Math.round(height/50),
       })
     }).exec()
   },
-
+  onNavItemTap(e: any){
+    console.log("diandaol")
+    const mainId: string = e.currentTarget?.dataset?.mainId
+    const navId: string = e.currentTarget?.id
+    if (mainId && navId){
+      this.setData({
+        mainScroll: mainId,
+        navSel: navId,
+      })
+    }
+  },
+  onMainScroll(e: any){
+    console.log(e)
+    const top: number = e.currentTarget?.offsetTop + e.detail?.scrollTop
+    if (top === undefined){
+      return
+    }
+    const selItem = this.scrollStates.mainItems.find(v => v.top>=top)
+    if (selItem === undefined){
+      return
+    }
+    this.setData({
+      navSel:selItem.dataset.navId,
+      navScroll:selItem.dataset.navScrollId,
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
