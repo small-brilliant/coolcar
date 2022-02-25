@@ -19,3 +19,4 @@
     <cover-view >扫码租车</cover-view>
   </cover-view>
 </map>
+<modal id = "licModal" title="身份验证" contents="需要身份验证才可以租车"></modal>

@@ -75,6 +75,11 @@ Page({
       })
     },1000)
   },
+  EndTrip(){
+    wx.redirectTo({
+      url: routing.mytrips(),
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

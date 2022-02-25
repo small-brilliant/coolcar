@@ -90,7 +90,8 @@ Page({
     console.log(redirectUrl)
 
     wx.scanCode({
-      success: ()=>{
+      success: async ()=>{
+        await this.selectComponent('#licModal').showModal()
         wx.navigateTo({
           url: routing.register({
             redirectURL: redirectUrl,
@@ -146,5 +147,5 @@ Page({
       })
     }
     movecar()
-  }
+  },
 })
