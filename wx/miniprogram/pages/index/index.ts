@@ -58,6 +58,12 @@ Page({
     },
   },
   onLoad(){
+    wx.request({
+      url:"http://localhost:8080/trip/123",
+      method: "GET",
+      success: console.log,
+      fail: console.log,
+    })
     if (app.globalData.userInfo) {
       this.setData({
         avatarUrl: app.globalData.userInfo.avatarUrl

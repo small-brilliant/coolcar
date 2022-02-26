@@ -15,6 +15,7 @@ func (*Service) GetTrip(c context.Context, req *trippb.GetTripRequest) (*trippb.
 			End:         "dfe",
 			DurationSec: 3600,
 			FeeCent:     10000,
+			Status:      trippb.TripStatus_IN_PROGRESS,
 		},
 	}, nil
 }
