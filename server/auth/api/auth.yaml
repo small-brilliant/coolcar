@@ -3,6 +3,6 @@ config_version: 3
 
 http:
   rules:
-    - seletor: auth.v1.AuthService.Login
-      post: /v1/auth/Login
+    - selector: auth.v1.AuthService.Login
+      post: /v1/auth/login
       body: "*"
