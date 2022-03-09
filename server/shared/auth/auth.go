@@ -53,7 +53,7 @@ func (i *interceptor) HandReq(ctx context.Context, req interface{}, info *grpc.U
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "token not valid: %v", err)
 	}
-	return handler(ContestWithAccontId(ctx, aid), req)
+	return handler(ContestWithAccontId(ctx, AccountID(aid)), req)
 }
 
 func tokenFromContext(c context.Context) (string, error) {
@@ -75,13 +75,19 @@ func tokenFromContext(c context.Context) (string, error) {
 
 type accountIDKey struct{}
 
-func ContestWithAccontId(c context.Context, aid string) context.Context {
+type AccountID string
+
+func (a AccountID) String() string {
+	return string(a)
+}
+
+func ContestWithAccontId(c context.Context, aid AccountID) context.Context {
 	return context.WithValue(c, accountIDKey{}, aid)
 }
 
-func AccountIDFromContext(c context.Context) (string, error) {
+func AccountIDFromContext(c context.Context) (AccountID, error) {
 	v := c.Value(accountIDKey{})
-	aid, ok := v.(string)
+	aid, ok := v.(AccountID)
 	if !ok {
 		return "", status.Error(codes.Unauthenticated, "")
 	}

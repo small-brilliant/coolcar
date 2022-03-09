@@ -20,6 +20,6 @@ func (s *Service) CreateTrip(c context.Context, req *rentalpb.CreateTripRequest)
 		return nil, err
 	}
 
-	s.Logger.Info("creat trip", zap.String("start", req.Start), zap.String("accoundID:", aid))
+	s.Logger.Info("creat trip", zap.String("start", req.Start), zap.String("accoundID:", aid.String()))
 	return nil, status.Error(codes.Unimplemented, "Unimplemented")
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	authpb "coolcar/auth/api/gen/v1"
 	rentalpb "coolcar/rental/api/gen/v1"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -25,18 +24,28 @@ func main() {
 				UseProtoNames:  true,
 			}},
 	))
-	// 监听 auth
-	err := authpb.RegisterAuthServiceHandlerFromEndpoint(c, mux, "localhost:8081", []grpc.DialOption{grpc.WithInsecure()})
-	if err != nil {
-		log.Fatalf("cannot register with service: %v", err)
+	serverConfig := []struct {
+		name       string
+		addr       string
+		registFunc func(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error)
+	}{
+		{
+			name:       "auth",
+			addr:       "localhost:8081",
+			registFunc: authpb.RegisterAuthServiceHandlerFromEndpoint,
+		},
+		{
+			name:       "rental",
+			addr:       "localhost:8082",
+			registFunc: rentalpb.RegisterTripServiceHandlerFromEndpoint,
+		},
 	}
-
-	// 监听 trip
-	err = rentalpb.RegisterTripServiceHandlerFromEndpoint(c, mux, "localhost:8082", []grpc.DialOption{grpc.WithInsecure()})
-	if err != nil {
-		log.Fatalf("cannot register with service: %v", err)
+	for _, s := range serverConfig {
+		err := s.registFunc(c, mux, s.addr, []grpc.DialOption{grpc.WithInsecure()})
+		if err != nil {
+			log.Fatalf("cannot register %s service with service: %v", s.name, err)
+		}
 	}
-	fmt.Println("start listening trip")
 	log.Fatal(http.ListenAndServe(":8080", mux))
 
 }
