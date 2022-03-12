@@ -1,4 +1,5 @@
 import { IAppOption } from "../../appoption"
+import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 
 // pages/lock/lock.ts
@@ -29,6 +30,9 @@ Page({
             latitude:loc.latitude,
             longitude:loc.longitude
           }
+        })
+        TripService.CreateTrip({
+          start:'abc'
         })
         const tripId = 'trip456'
         wx.showLoading({
