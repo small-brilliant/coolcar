@@ -2,12 +2,13 @@ package dao
 
 import (
 	"context"
+	"coolcar/shared/id"
+	"coolcar/shared/mongo/objid"
 	mongotesting "coolcar/shared/mongo/testing"
 	"os"
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -24,15 +25,15 @@ func TestResolverAccountID(t *testing.T) {
 	m := NewMongo(mc.Database("coolcar"))
 	m.col.InsertMany(c, []interface{}{
 		bson.M{
-			"_id":     mustObjID("621ecd8d42ffa4ec7cf1a22c"),
+			"_id":     objid.MustFromID(id.AccountID("621ecd8d42ffa4ec7cf1a22c")),
 			"open_id": "open_1",
 		},
 		bson.M{
-			"_id":     mustObjID("621ecd8d42ffa4ec7cf1a23c"),
+			"_id":     objid.MustFromID(id.AccountID("621ecd8d42ffa4ec7cf1a23c")),
 			"open_id": "open_2",
 		},
 		bson.M{
-			"_id":     mustObjID("621ecd8d42ffa4ec7cf1a24c"),
+			"_id":     objid.MustFromID(id.AccountID("621ecd8d42ffa4ec7cf1a24c")),
 			"open_id": "open_3",
 		},
 	})
@@ -62,30 +63,25 @@ func TestResolverAccountID(t *testing.T) {
 	}
 	for _, cc := range cases {
 		t.Run(cc.name, func(t *testing.T) {
-			id, err := m.ResolverAccountID(context.Background(), cc.openID)
+			aid, err := m.ResolverAccountID(context.Background(), cc.openID)
 			if err != nil {
 				t.Errorf("faild resolved account id %s: %v", cc.openID, err)
 			}
-			if id != cc.want {
-				t.Errorf("resolve account id : want: %q, got: %q", cc.want, id)
+			if aid != id.AccountID(cc.want) {
+				t.Errorf("resolve account id : want: %q, got: %q", cc.want, aid)
 			}
 		})
 	}
-	id, err := m.ResolverAccountID(c, "123")
+	aid, err := m.ResolverAccountID(c, "123")
 	if err != nil {
 		t.Errorf("faild resolved account id 123: %v", err)
 	} else {
 		want := "621ecd8d42ffa4ec7cf1a22c"
-		if id != want {
-			t.Errorf("resolve account id : want: %q, got: %q", want, id)
+		if aid != id.AccountID(want) {
+			t.Errorf("resolve account id : want: %q, got: %q", want, aid)
 		}
 	}
 
-}
-
-func mustObjID(hex string) primitive.ObjectID {
-	oi, _ := primitive.ObjectIDFromHex(hex)
-	return oi
 }
 
 func TestMain(m *testing.M) {
