@@ -37,7 +37,7 @@ func (s *Service) Login(c context.Context, req *authpb.LoginRequest) (*authpb.Lo
 		s.Logger.Error("cannot resolve account id : %v", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "")
 	}
-	tkn, err := s.TokenGenerator.GeneratorToken(accountID.String(), 7200)
+	tkn, err := s.TokenGenerator.GeneratorToken(accountID.String(), 2*time.Hour)
 	if err != nil {
 		s.Logger.Error("cannot generator token", zap.Error(err))
 		return nil, status.Error(codes.Internal, "")
