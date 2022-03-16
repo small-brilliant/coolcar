@@ -3,7 +3,7 @@ import { auth } from "./proto_gen/auth/auth_pb"
 
 export namespace Coolcar{
     // 服务器地址
-    const serverAddr = 'https://localhost:8080'
+    const serverAddr = 'http://localhost:8080'
     const AUTH_ERR = 'AUTH_ERR'
     const authData = {
         token: '',
@@ -13,7 +13,7 @@ export namespace Coolcar{
         method: 'GET'|'PUT'|'POST'|'DELETE',
         path: string
         // 强类型
-        data: REQ
+        data?: REQ
         respMarshaller: (r: object)=>RES
     }
     // 是否需要携带token
@@ -86,7 +86,7 @@ export namespace Coolcar{
                     }else if(res.statusCode >= 400){
                         reject(res)
                     }else{
-                        o.respMarshaller(camelcaseKeys(res.data as object,{deep:true}))
+                        resolve(o.respMarshaller(camelcaseKeys(res.data as object,{deep:true})))
                     }
                 },
                 fail:reject,

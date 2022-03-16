@@ -7,12 +7,13 @@ Page({
   /**
    * 页面的初始数据
    */
+  carID: "",
   data: {
     avatarUrl:'',
   },
   onLoad(opt: Record<'car_id',string>){
     const o: routing.LockOpts = opt
-    console.log("current carId:",o.car_id)
+    this.carID = o.car_id
     const app = getApp<IAppOption>()
     console.log(app.globalData.userInfo)
     if (app.globalData.userInfo) {
@@ -24,27 +25,32 @@ Page({
   onUnlockTap(){
     wx.getLocation({
       type: 'gcj02',
-      success: loc =>{
-        console.log('starting a trip',{
-          location:{
+      success: async loc => {
+        if (!this.carID) {
+            console.error('no carID specified')
+            return
+        }
+        const trip = await TripService.CreateTrip({
+          carId: this.carID,
+          start: {
             latitude:loc.latitude,
-            longitude:loc.longitude
-          }
+            longitude:loc.longitude,
+          },
         })
-        TripService.CreateTrip({
-          start:'abc'
-        })
-        const tripId = 'trip456'
         wx.showLoading({
           title:'开锁中',
           mask: true,
         })
-
+        if (!trip.id){
+          console.error(trip)
+          console.error("no tripID in response",trip)
+          return
+        }
         setTimeout(() => {
           wx.redirectTo({
             // url:`/pages/driving/driving?trip-id=${tripId}`,
             url: routing.driving({
-              trip_id: tripId
+              trip_id: trip.id!
             }),
             complete: ()=>{
               wx.hideLoading()

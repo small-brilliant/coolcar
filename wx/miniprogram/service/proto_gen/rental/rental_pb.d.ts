@@ -115,6 +115,9 @@ export namespace rental {
 
             /** LocationStatus poiName */
             poiName?: (string|null);
+
+            /** LocationStatus timestampSec */
+            timestampSec?: (number|null);
         }
 
         /** Represents a LocationStatus. */
@@ -137,6 +140,9 @@ export namespace rental {
 
             /** LocationStatus poiName. */
             public poiName: string;
+
+            /** LocationStatus timestampSec. */
+            public timestampSec: (number);
 
             /**
              * Creates a new LocationStatus instance using the specified properties.
@@ -212,7 +218,7 @@ export namespace rental {
         /** TripStatus enum. */
         enum TripStatus {
             TS_NOT_SPECIFIED = 0,
-            IN_PROGRES = 1,
+            IN_PROGRESS = 1,
             FINISHED = 2
         }
 
@@ -315,11 +321,11 @@ export namespace rental {
         /** Properties of a Trip. */
         interface ITrip {
 
-            /** Trip accountID */
-            accountID?: (string|null);
+            /** Trip accountId */
+            accountId?: (string|null);
 
-            /** Trip carID */
-            carID?: (string|null);
+            /** Trip carId */
+            carId?: (string|null);
 
             /** Trip start */
             start?: (rental.v1.ILocationStatus|null);
@@ -332,6 +338,9 @@ export namespace rental {
 
             /** Trip status */
             status?: (rental.v1.TripStatus|null);
+
+            /** Trip identityId */
+            identityId?: (string|null);
         }
 
         /** Represents a Trip. */
@@ -343,11 +352,11 @@ export namespace rental {
              */
             constructor(properties?: rental.v1.ITrip);
 
-            /** Trip accountID. */
-            public accountID: string;
+            /** Trip accountId. */
+            public accountId: string;
 
-            /** Trip carID. */
-            public carID: string;
+            /** Trip carId. */
+            public carId: string;
 
             /** Trip start. */
             public start?: (rental.v1.ILocationStatus|null);
@@ -360,6 +369,9 @@ export namespace rental {
 
             /** Trip status. */
             public status: rental.v1.TripStatus;
+
+            /** Trip identityId. */
+            public identityId: string;
 
             /**
              * Creates a new Trip instance using the specified properties.
@@ -436,10 +448,13 @@ export namespace rental {
         interface ICreateTripRequest {
 
             /** CreateTripRequest start */
-            start?: (string|null);
+            start?: (rental.v1.ILocation|null);
 
             /** CreateTripRequest carId */
             carId?: (string|null);
+
+            /** CreateTripRequest avatarUrl */
+            avatarUrl?: (string|null);
         }
 
         /** Represents a CreateTripRequest. */
@@ -452,10 +467,13 @@ export namespace rental {
             constructor(properties?: rental.v1.ICreateTripRequest);
 
             /** CreateTripRequest start. */
-            public start: string;
+            public start?: (rental.v1.ILocation|null);
 
             /** CreateTripRequest carId. */
             public carId: string;
+
+            /** CreateTripRequest avatarUrl. */
+            public avatarUrl: string;
 
             /**
              * Creates a new CreateTripRequest instance using the specified properties.

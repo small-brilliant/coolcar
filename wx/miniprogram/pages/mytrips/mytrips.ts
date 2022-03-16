@@ -1,3 +1,5 @@
+import { rental } from "../../service/proto_gen/rental/rental_pb"
+import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 
 interface Trip {
@@ -81,7 +83,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
+  async onLoad() {
+    const res = await TripService.GetTrips(rental.v1.TripStatus.IN_PROGRESS)
     this.populateTrips()
   },
   populateTrips(){
