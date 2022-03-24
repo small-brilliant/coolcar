@@ -8,6 +8,6 @@ set PBTS_BIN_DIR= ..\wx\miniprogram\node_modules\.bin
 set PBTS_OUT_DIR= ..\wx\miniprogram\service\proto_gen\rental
 mkdir %PBTS_OUT_DIR%
 
-%PBTS_BIN_DIR%\pbjs -t static -w es6 ./rental/api/rental.proto --no--create --no--decode --no--verify --no--delimited -o %PBTS_OUT_DIR%/rental_pb.js
+%PBTS_BIN_DIR%\pbjs -t static -w es6 ./rental/api/rental.proto --no--create --no--decode --no--verify --force-number --no--delimited -o %PBTS_OUT_DIR%/rental_pb.js
 
 %PBTS_BIN_DIR%\pbts -o %PBTS_OUT_DIR%/rental_pb.d.ts %PBTS_OUT_DIR%/rental_pb.js

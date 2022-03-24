@@ -1,3 +1,4 @@
+import { ProfileService } from "../../service/profile"
 import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 

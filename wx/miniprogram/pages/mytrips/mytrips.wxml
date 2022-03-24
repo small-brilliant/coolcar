@@ -19,7 +19,7 @@
         <text class="cuIcon-people"></text>
     </button>
     <image wx:else src="{{avatarUrl}}" class="cu-avatar round lg bg-grey"/>
-    <view class="mytrips-profile" bindtap="onRegisterTap">驾驶资格未认证</view>
+    <view class="mytrips-profile" bindtap="onRegisterTap">驾驶资格{{licStatus}}</view>
 </view>
 </view>
 <view class="nav-container">

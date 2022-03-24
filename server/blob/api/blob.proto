@@ -1,0 +1,33 @@
+syntax = "proto3";
+package blob.v1;
+option go_package = "coolcar/blob/api/gen/v1;blobpb";
+
+message CreateBlobRequest{
+    string accound_id = 1;
+    int32 upload_url_time_sec = 2;
+}
+message CreateBlobResponse{
+    string id = 1;
+    string upload_url = 2;
+}
+
+message GetBlobRequest{
+    string id = 1;
+}
+message GetBlobResponse{
+    bytes data = 1;
+    // string mime_type = 2; // text/plain,image/jpg
+}
+message GetBlobURlRequest{
+    string id = 1;
+    int32 time_sec = 2;
+}
+message GetBlobURLResponse{
+    string url = 1;
+}
+
+service Blobservice{
+    rpc CreateBlob(CreateBlobRequest) returns (CreateBlobResponse);
+    rpc GetBlob(GetBlobRequest) returns (GetBlobResponse);
+    rpc GetBlobURL(GetBlobURlRequest) returns(GetBlobURLResponse);
+}

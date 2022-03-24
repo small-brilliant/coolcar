@@ -2,6 +2,9 @@
 // 获取应用实例
 
 import { IAppOption } from "../../appoption"
+import { ProfileService } from "../../service/profile"
+import { rental } from "../../service/proto_gen/rental/rental_pb"
+import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 
 const app = getApp<IAppOption>()
@@ -82,22 +85,37 @@ Page({
       }
     })
   },
-  onScanClicked(){
+  async onScanClicked(){
+    const trips = await TripService.GetTrips(rental.v1.TripStatus.IN_PROGRESS)
+    if ((trips.trips?.length || 0 )>0){
+      await this.selectComponent('#tripModal').showModal()
+      wx.navigateTo({
+        url: routing.driving({
+          trip_id:trips.trips![0].id!,
+        })
+      })
+      return
+    }
     //TODO: get car id from scan result
-    const carId = 'car123'
-    const redirectUrl = routing.lock({
-      car_id: carId,
-    })
-    console.log(redirectUrl)
-
     wx.scanCode({
       success: async ()=>{
-        await this.selectComponent('#licModal').showModal()
-        wx.navigateTo({
-          url: routing.register({
-            redirectURL: redirectUrl,
-          })
+        const carId = 'car123'
+        const lockURL = routing.lock({
+          car_id: carId,
         })
+        const profile = await ProfileService.getProfile()
+        if ( profile.identityStatus === rental.v1.IdentityStatus.VERIFIED){
+          wx.navigateTo({
+            url: lockURL,
+          })
+        }else{
+          await this.selectComponent('#licModal').showModal()
+          wx.navigateTo({
+            url: routing.register({
+              redirectURL: lockURL,
+            })
+          })
+        }
       },
       fail: console.error,
     })

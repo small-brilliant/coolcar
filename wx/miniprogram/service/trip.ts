@@ -29,4 +29,12 @@ export namespace TripService{
             
         })
     }
+    export function UpdateTrip(trip: rental.v1.UpdateTripRequest): Promise<rental.v1.Trip>{
+        return Coolcar.sendRequestWithAuthRetry({
+            method: "PUT",
+            path: `/v1/trip/${trip.id}`,
+            data:trip,
+            respMarshaller:rental.v1.Trip.fromObject,
+        })
+    }
 }

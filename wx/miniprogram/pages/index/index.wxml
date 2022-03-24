@@ -20,3 +20,4 @@
   </cover-view>
 </map>
 <modal id = "licModal" title="身份验证" contents="需要身份验证才可以租车"></modal>
+<modal id = "tripModal" title="提示" contents="有正在进行的订单"></modal>

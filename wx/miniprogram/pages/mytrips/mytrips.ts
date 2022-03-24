@@ -1,7 +1,9 @@
+import { IAppOption } from "../../appoption"
+import { ProfileService } from "../../service/profile"
 import { rental } from "../../service/proto_gen/rental/rental_pb"
 import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
-
+const app = getApp<IAppOption>()
 interface Trip {
   id: string
   start: string
@@ -30,6 +32,16 @@ interface MainItemQueryResult{
     navScrollId: string
   }
 }
+const tripStatusMap = new Map([
+  [rental.v1.TripStatus.IN_PROGRESS,'进行中'],
+  [rental.v1.TripStatus.FINISHED,'已完成'],
+])
+
+const licStatusMap = new Map([
+  [rental.v1.IdentityStatus.UNSUBMITTED,'未认证'],
+  [rental.v1.IdentityStatus.PENDING,'未认证'],
+  [rental.v1.IdentityStatus.VERIFIED,'已认证'],
+])
 // pages/mytrips/mytrips.ts
 Page({
 
@@ -40,6 +52,7 @@ Page({
     mainItems: [] as MainItemQueryResult[],
   },
   data: {
+    avatarUrl:'',
     indicatorDots: true,
     autoplay:true,
     interval:5000,
@@ -47,6 +60,7 @@ Page({
     circular:false,
     vertical: false,
     mainScroll: "",
+    licStatus: licStatusMap.get(rental.v1.IdentityStatus.UNSUBMITTED),
     promotionItems: [
       {
         promotionID:1,
@@ -84,9 +98,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   async onLoad() {
-    const res = await TripService.GetTrips(rental.v1.TripStatus.IN_PROGRESS)
+    //const res = await TripService.GetTrips(rental.v1.TripStatus.IN_PROGRESS)
+    if (app.globalData.userInfo) {
+      this.setData({
+        avatarUrl: app.globalData.userInfo.avatarUrl
+      })
+    }
     this.populateTrips()
   },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    ProfileService.getProfile().then(p=>{
+      this.setData({
+        licStatus:licStatusMap.get(p.identityStatus||0),
+      })
+    })
+  },
+
+
   populateTrips(){
     const mainItems: MainItem[] = []
     const navItems: NavItem[] = []
@@ -175,12 +206,6 @@ Page({
       navSel:selItem.dataset.navId,
       navScroll:selItem.dataset.navScrollId,
     })
-  },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
   },
 
   /**

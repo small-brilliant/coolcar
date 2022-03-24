@@ -39,6 +39,11 @@ func main() {
 			addr:       "localhost:8082",
 			registFunc: rentalpb.RegisterTripServiceHandlerFromEndpoint,
 		},
+		{
+			name:       "profile",
+			addr:       "localhost:8082",
+			registFunc: rentalpb.RegisterProfileServiceHandlerFromEndpoint,
+		},
 	}
 	for _, s := range serverConfig {
 		err := s.registFunc(c, mux, s.addr, []grpc.DialOption{grpc.WithInsecure()})
