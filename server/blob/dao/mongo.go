@@ -1,6 +1,15 @@
 package dao
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"context"
+	"coolcar/shared/id"
+	mgo "coolcar/shared/mongo"
+	"coolcar/shared/mongo/objid"
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type Mongo struct {
 	col *mongo.Collection
@@ -10,4 +19,43 @@ func NewMongo(db *mongo.Database) *Mongo {
 	return &Mongo{
 		col: db.Collection("blob"),
 	}
+}
+
+type BlobRecord struct {
+	mgo.IDField `bson:"inline"`
+	accountID   string `bson:"accountid"`
+	Path        string `bson:"path"`
+}
+
+func (m *Mongo) CreateBlob(c context.Context, aid id.AccountID) (*BlobRecord, error) {
+	br := &BlobRecord{
+		accountID: aid.String(),
+	}
+	objid := mgo.NewObjID()
+	br.ID = objid
+	br.Path = fmt.Sprintf("%s/%s", br.accountID, objid.Hex())
+	_, err := m.col.InsertOne(c, br)
+	if err != nil {
+		return nil, err
+	}
+	return br, nil
+}
+
+func (m *Mongo) GetBlob(c context.Context, bid id.BlobID) (*BlobRecord, error) {
+	objid, err := objid.FromID(bid)
+	if err != nil {
+		return nil, fmt.Errorf("invalid object id: %v", err)
+	}
+	res := m.col.FindOne(c, bson.M{
+		mgo.IDFieldName: objid,
+	})
+	if err := res.Err(); err != nil {
+		return nil, err
+	}
+	var br BlobRecord
+	err = res.Decode(&br)
+	if err != nil {
+		return nil, fmt.Errorf("cannot decode result: %v", err)
+	}
+	return &br, nil
 }
