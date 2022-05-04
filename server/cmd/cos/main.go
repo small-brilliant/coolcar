@@ -2,37 +2,34 @@ package main
 
 import (
 	"context"
+	blobpb "coolcar/blob/api/gen/v1"
 	"fmt"
-	"net/http"
-	"net/url"
-	"time"
 
-	"github.com/tencentyun/cos-go-sdk-v5"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	u, err := url.Parse("https://coolcar-1309863650.cos.ap-nanjing.myqcloud.com")
+	conn, err := grpc.Dial("localhost:8083", grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
-	// 用于Get Service 查询，默认全地域 service.cos.myqcloud.com
-	su, _ := url.Parse("https://cos.ap-nanjing.myqcloud.com")
-	b := &cos.BaseURL{BucketURL: u, ServiceURL: su}
-	secretID := "AKID2tUpthFWWLuCCxRjgPr2wZv0oLbbKnzu"
-	secretKey := "g6F9m8D2arqY1C7mAI9k47sNbaIjtoSp"
-	// 1.永久密钥
-	client := cos.NewClient(b, &http.Client{
-		Transport: &cos.AuthorizationTransport{
-			SecretID:  secretID,  // 替换为用户的 SecretId，请登录访问管理控制台进行查看和管理，https://console.cloud.tencent.com/cam/capi
-			SecretKey: secretKey, // 替换为用户的 SecretKey，请登录访问管理控制台进行查看和管理，https://console.cloud.tencent.com/cam/capi
-		},
-	})
-	// 获取预签名URL
-	presignedURL, err := client.Object.GetPresignedURL(
-		context.Background(), http.MethodGet, "test123.png", secretID, secretKey, 20*time.Second, nil)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(presignedURL)
+	c := blobpb.NewBlobserviceClient(conn)
 
+	ctx := context.Background()
+
+	// res, err := c.CreateBlob(ctx, &blobpb.CreateBlobRequest{
+	// 	AccoundId:        "account_1",
+	// 	UploadUrlTimeSec: 1000,
+	// })
+	// res, err := c.GetBlob(ctx, &blobpb.GetBlobRequest{
+	// 	Id: "624feb44ccff44db122fec90",
+	// })
+	res, err := c.GetBlobURL(ctx, &blobpb.GetBlobURlRequest{
+		Id:      "624feb44ccff44db122fec90",
+		TimeSec: 100,
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", res)
 }

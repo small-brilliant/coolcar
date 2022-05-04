@@ -44,6 +44,8 @@ func SetOnInsert(v interface{}) bson.M {
 		"$setOnInsert": v,
 	}
 }
+
+// 更新的条件
 func ZeroOrDoesNotExist(field string, zero interface{}) bson.M {
 	return bson.M{
 		"$or": []bson.M{

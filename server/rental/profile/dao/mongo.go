@@ -16,6 +16,7 @@ const (
 	accountIdField      = "accoundid"
 	profileField        = "profile"
 	identityStatusField = profileField + ".identitystatus"
+	photoBlobIDField    = "photoblobid"
 )
 
 type Mongo struct {
@@ -29,11 +30,12 @@ func NewMongo(db *mongo.Database) *Mongo {
 }
 
 type ProfileRecord struct {
-	AccountID string            `bson:"accoundid"`
-	Profile   *rentalpb.Profile `bson:"profile"`
+	AccountID   string            `bson:"accoundid"`
+	Profile     *rentalpb.Profile `bson:"profile"`
+	PhotoBlobID string            `bson:"photoblobid"`
 }
 
-func (m *Mongo) GetProfile(c context.Context, aid id.AccountID) (*rentalpb.Profile, error) {
+func (m *Mongo) GetProfile(c context.Context, aid id.AccountID) (*ProfileRecord, error) {
 	res := m.col.FindOne(c, byAccountID(aid))
 	if err := res.Err(); err != nil {
 		return nil, err
@@ -43,16 +45,29 @@ func (m *Mongo) GetProfile(c context.Context, aid id.AccountID) (*rentalpb.Profi
 	if err != nil {
 		return nil, fmt.Errorf("cannot decode profile record:%v", err)
 	}
-	return pr.Profile, nil
-
+	return &pr, nil
 }
 
-func (m *Mongo) UpdateProfile(c context.Context, aid id.AccountID, prevStatus rentalpb.IdentityStatus, p *rentalpb.Profile) error {
-
+func (m *Mongo) UpdateProfilePhoto(c context.Context, aid id.AccountID, bid id.BlobID) error {
 	_, err := m.col.UpdateOne(c, bson.M{
-		accountIdField:      aid.String(),
-		identityStatusField: prevStatus,
+		accountIdField: aid.String(),
 	}, mgo.Set(bson.M{
+		photoBlobIDField: bid.String(),
+	}), options.Update().SetUpsert(true))
+	return err
+}
+
+// 在UpdateProfilePhoto的时候就已经插入了account了
+
+func (m *Mongo) UpdateProfile(c context.Context, aid id.AccountID, prevStatus rentalpb.IdentityStatus, p *rentalpb.Profile) error {
+	filter := bson.M{
+		identityStatusField: prevStatus,
+	}
+	if prevStatus == rentalpb.IdentityStatus_UNSUBMITTED {
+		filter = mgo.ZeroOrDoesNotExist(identityStatusField, prevStatus)
+	}
+	filter[accountIdField] = aid.String()
+	_, err := m.col.UpdateOne(c, filter, mgo.Set(bson.M{
 		accountIdField: aid.String(),
 		profileField:   p,
 	}), options.Update().SetUpsert(true))

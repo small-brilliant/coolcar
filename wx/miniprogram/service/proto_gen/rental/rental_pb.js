@@ -2358,14 +2358,14 @@ export const rental = $root.rental = (() => {
          * @name rental.v1.Gender
          * @enum {number}
          * @property {number} G_NOT_SPECIFIED=0 G_NOT_SPECIFIED value
-         * @property {number} MALE=1 MALE value
-         * @property {number} FEMALE=2 FEMALE value
+         * @property {number} FEMALE=1 FEMALE value
+         * @property {number} MALE=2 MALE value
          */
         v1.Gender = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "G_NOT_SPECIFIED"] = 0;
-            values[valuesById[1] = "MALE"] = 1;
-            values[valuesById[2] = "FEMALE"] = 2;
+            values[valuesById[1] = "FEMALE"] = 1;
+            values[valuesById[2] = "MALE"] = 2;
             return values;
         })();
 
@@ -2832,11 +2832,11 @@ export const rental = $root.rental = (() => {
                 case 0:
                     message.gender = 0;
                     break;
-                case "MALE":
+                case "FEMALE":
                 case 1:
                     message.gender = 1;
                     break;
-                case "FEMALE":
+                case "MALE":
                 case 2:
                     message.gender = 2;
                     break;
@@ -3224,6 +3224,1180 @@ export const rental = $root.rental = (() => {
             return ClearProfileRequest;
         })();
 
+        v1.GetProfilePhotoRequest = (function() {
+
+            /**
+             * Properties of a GetProfilePhotoRequest.
+             * @memberof rental.v1
+             * @interface IGetProfilePhotoRequest
+             */
+
+            /**
+             * Constructs a new GetProfilePhotoRequest.
+             * @memberof rental.v1
+             * @classdesc Represents a GetProfilePhotoRequest.
+             * @implements IGetProfilePhotoRequest
+             * @constructor
+             * @param {rental.v1.IGetProfilePhotoRequest=} [properties] Properties to set
+             */
+            function GetProfilePhotoRequest(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Creates a new GetProfilePhotoRequest instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IGetProfilePhotoRequest=} [properties] Properties to set
+             * @returns {rental.v1.GetProfilePhotoRequest} GetProfilePhotoRequest instance
+             */
+            GetProfilePhotoRequest.create = function create(properties) {
+                return new GetProfilePhotoRequest(properties);
+            };
+
+            /**
+             * Encodes the specified GetProfilePhotoRequest message. Does not implicitly {@link rental.v1.GetProfilePhotoRequest.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IGetProfilePhotoRequest} message GetProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetProfilePhotoRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified GetProfilePhotoRequest message, length delimited. Does not implicitly {@link rental.v1.GetProfilePhotoRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IGetProfilePhotoRequest} message GetProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetProfilePhotoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a GetProfilePhotoRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.GetProfilePhotoRequest} GetProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetProfilePhotoRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.GetProfilePhotoRequest();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a GetProfilePhotoRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.GetProfilePhotoRequest} GetProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetProfilePhotoRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a GetProfilePhotoRequest message.
+             * @function verify
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            GetProfilePhotoRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+
+            /**
+             * Creates a GetProfilePhotoRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.GetProfilePhotoRequest} GetProfilePhotoRequest
+             */
+            GetProfilePhotoRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.GetProfilePhotoRequest)
+                    return object;
+                return new $root.rental.v1.GetProfilePhotoRequest();
+            };
+
+            /**
+             * Creates a plain object from a GetProfilePhotoRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @static
+             * @param {rental.v1.GetProfilePhotoRequest} message GetProfilePhotoRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            GetProfilePhotoRequest.toObject = function toObject() {
+                return {};
+            };
+
+            /**
+             * Converts this GetProfilePhotoRequest to JSON.
+             * @function toJSON
+             * @memberof rental.v1.GetProfilePhotoRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            GetProfilePhotoRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return GetProfilePhotoRequest;
+        })();
+
+        v1.GetProfilePhotoReponse = (function() {
+
+            /**
+             * Properties of a GetProfilePhotoReponse.
+             * @memberof rental.v1
+             * @interface IGetProfilePhotoReponse
+             * @property {string|null} [url] GetProfilePhotoReponse url
+             */
+
+            /**
+             * Constructs a new GetProfilePhotoReponse.
+             * @memberof rental.v1
+             * @classdesc Represents a GetProfilePhotoReponse.
+             * @implements IGetProfilePhotoReponse
+             * @constructor
+             * @param {rental.v1.IGetProfilePhotoReponse=} [properties] Properties to set
+             */
+            function GetProfilePhotoReponse(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * GetProfilePhotoReponse url.
+             * @member {string} url
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @instance
+             */
+            GetProfilePhotoReponse.prototype.url = "";
+
+            /**
+             * Creates a new GetProfilePhotoReponse instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IGetProfilePhotoReponse=} [properties] Properties to set
+             * @returns {rental.v1.GetProfilePhotoReponse} GetProfilePhotoReponse instance
+             */
+            GetProfilePhotoReponse.create = function create(properties) {
+                return new GetProfilePhotoReponse(properties);
+            };
+
+            /**
+             * Encodes the specified GetProfilePhotoReponse message. Does not implicitly {@link rental.v1.GetProfilePhotoReponse.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IGetProfilePhotoReponse} message GetProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetProfilePhotoReponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.url != null && Object.hasOwnProperty.call(message, "url"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.url);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified GetProfilePhotoReponse message, length delimited. Does not implicitly {@link rental.v1.GetProfilePhotoReponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IGetProfilePhotoReponse} message GetProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GetProfilePhotoReponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a GetProfilePhotoReponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.GetProfilePhotoReponse} GetProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetProfilePhotoReponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.GetProfilePhotoReponse();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.url = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a GetProfilePhotoReponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.GetProfilePhotoReponse} GetProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GetProfilePhotoReponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a GetProfilePhotoReponse message.
+             * @function verify
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            GetProfilePhotoReponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.url != null && message.hasOwnProperty("url"))
+                    if (!$util.isString(message.url))
+                        return "url: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a GetProfilePhotoReponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.GetProfilePhotoReponse} GetProfilePhotoReponse
+             */
+            GetProfilePhotoReponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.GetProfilePhotoReponse)
+                    return object;
+                let message = new $root.rental.v1.GetProfilePhotoReponse();
+                if (object.url != null)
+                    message.url = String(object.url);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a GetProfilePhotoReponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @static
+             * @param {rental.v1.GetProfilePhotoReponse} message GetProfilePhotoReponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            GetProfilePhotoReponse.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                let object = {};
+                if (options.defaults)
+                    object.url = "";
+                if (message.url != null && message.hasOwnProperty("url"))
+                    object.url = message.url;
+                return object;
+            };
+
+            /**
+             * Converts this GetProfilePhotoReponse to JSON.
+             * @function toJSON
+             * @memberof rental.v1.GetProfilePhotoReponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            GetProfilePhotoReponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return GetProfilePhotoReponse;
+        })();
+
+        v1.CreateProfilePhotoRequest = (function() {
+
+            /**
+             * Properties of a CreateProfilePhotoRequest.
+             * @memberof rental.v1
+             * @interface ICreateProfilePhotoRequest
+             */
+
+            /**
+             * Constructs a new CreateProfilePhotoRequest.
+             * @memberof rental.v1
+             * @classdesc Represents a CreateProfilePhotoRequest.
+             * @implements ICreateProfilePhotoRequest
+             * @constructor
+             * @param {rental.v1.ICreateProfilePhotoRequest=} [properties] Properties to set
+             */
+            function CreateProfilePhotoRequest(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Creates a new CreateProfilePhotoRequest instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoRequest=} [properties] Properties to set
+             * @returns {rental.v1.CreateProfilePhotoRequest} CreateProfilePhotoRequest instance
+             */
+            CreateProfilePhotoRequest.create = function create(properties) {
+                return new CreateProfilePhotoRequest(properties);
+            };
+
+            /**
+             * Encodes the specified CreateProfilePhotoRequest message. Does not implicitly {@link rental.v1.CreateProfilePhotoRequest.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoRequest} message CreateProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateProfilePhotoRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified CreateProfilePhotoRequest message, length delimited. Does not implicitly {@link rental.v1.CreateProfilePhotoRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoRequest} message CreateProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateProfilePhotoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a CreateProfilePhotoRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.CreateProfilePhotoRequest} CreateProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateProfilePhotoRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.CreateProfilePhotoRequest();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a CreateProfilePhotoRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.CreateProfilePhotoRequest} CreateProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateProfilePhotoRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a CreateProfilePhotoRequest message.
+             * @function verify
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CreateProfilePhotoRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+
+            /**
+             * Creates a CreateProfilePhotoRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.CreateProfilePhotoRequest} CreateProfilePhotoRequest
+             */
+            CreateProfilePhotoRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.CreateProfilePhotoRequest)
+                    return object;
+                return new $root.rental.v1.CreateProfilePhotoRequest();
+            };
+
+            /**
+             * Creates a plain object from a CreateProfilePhotoRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @static
+             * @param {rental.v1.CreateProfilePhotoRequest} message CreateProfilePhotoRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CreateProfilePhotoRequest.toObject = function toObject() {
+                return {};
+            };
+
+            /**
+             * Converts this CreateProfilePhotoRequest to JSON.
+             * @function toJSON
+             * @memberof rental.v1.CreateProfilePhotoRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CreateProfilePhotoRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return CreateProfilePhotoRequest;
+        })();
+
+        v1.CreateProfilePhotoReponse = (function() {
+
+            /**
+             * Properties of a CreateProfilePhotoReponse.
+             * @memberof rental.v1
+             * @interface ICreateProfilePhotoReponse
+             * @property {string|null} [uploadUrl] CreateProfilePhotoReponse uploadUrl
+             */
+
+            /**
+             * Constructs a new CreateProfilePhotoReponse.
+             * @memberof rental.v1
+             * @classdesc Represents a CreateProfilePhotoReponse.
+             * @implements ICreateProfilePhotoReponse
+             * @constructor
+             * @param {rental.v1.ICreateProfilePhotoReponse=} [properties] Properties to set
+             */
+            function CreateProfilePhotoReponse(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * CreateProfilePhotoReponse uploadUrl.
+             * @member {string} uploadUrl
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @instance
+             */
+            CreateProfilePhotoReponse.prototype.uploadUrl = "";
+
+            /**
+             * Creates a new CreateProfilePhotoReponse instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoReponse=} [properties] Properties to set
+             * @returns {rental.v1.CreateProfilePhotoReponse} CreateProfilePhotoReponse instance
+             */
+            CreateProfilePhotoReponse.create = function create(properties) {
+                return new CreateProfilePhotoReponse(properties);
+            };
+
+            /**
+             * Encodes the specified CreateProfilePhotoReponse message. Does not implicitly {@link rental.v1.CreateProfilePhotoReponse.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoReponse} message CreateProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateProfilePhotoReponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uploadUrl != null && Object.hasOwnProperty.call(message, "uploadUrl"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.uploadUrl);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified CreateProfilePhotoReponse message, length delimited. Does not implicitly {@link rental.v1.CreateProfilePhotoReponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {rental.v1.ICreateProfilePhotoReponse} message CreateProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateProfilePhotoReponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a CreateProfilePhotoReponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.CreateProfilePhotoReponse} CreateProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateProfilePhotoReponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.CreateProfilePhotoReponse();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uploadUrl = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a CreateProfilePhotoReponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.CreateProfilePhotoReponse} CreateProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateProfilePhotoReponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a CreateProfilePhotoReponse message.
+             * @function verify
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CreateProfilePhotoReponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uploadUrl != null && message.hasOwnProperty("uploadUrl"))
+                    if (!$util.isString(message.uploadUrl))
+                        return "uploadUrl: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a CreateProfilePhotoReponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.CreateProfilePhotoReponse} CreateProfilePhotoReponse
+             */
+            CreateProfilePhotoReponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.CreateProfilePhotoReponse)
+                    return object;
+                let message = new $root.rental.v1.CreateProfilePhotoReponse();
+                if (object.uploadUrl != null)
+                    message.uploadUrl = String(object.uploadUrl);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a CreateProfilePhotoReponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @static
+             * @param {rental.v1.CreateProfilePhotoReponse} message CreateProfilePhotoReponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CreateProfilePhotoReponse.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                let object = {};
+                if (options.defaults)
+                    object.uploadUrl = "";
+                if (message.uploadUrl != null && message.hasOwnProperty("uploadUrl"))
+                    object.uploadUrl = message.uploadUrl;
+                return object;
+            };
+
+            /**
+             * Converts this CreateProfilePhotoReponse to JSON.
+             * @function toJSON
+             * @memberof rental.v1.CreateProfilePhotoReponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CreateProfilePhotoReponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return CreateProfilePhotoReponse;
+        })();
+
+        v1.CompleteProfilePhotoRequest = (function() {
+
+            /**
+             * Properties of a CompleteProfilePhotoRequest.
+             * @memberof rental.v1
+             * @interface ICompleteProfilePhotoRequest
+             */
+
+            /**
+             * Constructs a new CompleteProfilePhotoRequest.
+             * @memberof rental.v1
+             * @classdesc Represents a CompleteProfilePhotoRequest.
+             * @implements ICompleteProfilePhotoRequest
+             * @constructor
+             * @param {rental.v1.ICompleteProfilePhotoRequest=} [properties] Properties to set
+             */
+            function CompleteProfilePhotoRequest(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Creates a new CompleteProfilePhotoRequest instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICompleteProfilePhotoRequest=} [properties] Properties to set
+             * @returns {rental.v1.CompleteProfilePhotoRequest} CompleteProfilePhotoRequest instance
+             */
+            CompleteProfilePhotoRequest.create = function create(properties) {
+                return new CompleteProfilePhotoRequest(properties);
+            };
+
+            /**
+             * Encodes the specified CompleteProfilePhotoRequest message. Does not implicitly {@link rental.v1.CompleteProfilePhotoRequest.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICompleteProfilePhotoRequest} message CompleteProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CompleteProfilePhotoRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified CompleteProfilePhotoRequest message, length delimited. Does not implicitly {@link rental.v1.CompleteProfilePhotoRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ICompleteProfilePhotoRequest} message CompleteProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CompleteProfilePhotoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a CompleteProfilePhotoRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.CompleteProfilePhotoRequest} CompleteProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CompleteProfilePhotoRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.CompleteProfilePhotoRequest();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a CompleteProfilePhotoRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.CompleteProfilePhotoRequest} CompleteProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CompleteProfilePhotoRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a CompleteProfilePhotoRequest message.
+             * @function verify
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CompleteProfilePhotoRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+
+            /**
+             * Creates a CompleteProfilePhotoRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.CompleteProfilePhotoRequest} CompleteProfilePhotoRequest
+             */
+            CompleteProfilePhotoRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.CompleteProfilePhotoRequest)
+                    return object;
+                return new $root.rental.v1.CompleteProfilePhotoRequest();
+            };
+
+            /**
+             * Creates a plain object from a CompleteProfilePhotoRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @static
+             * @param {rental.v1.CompleteProfilePhotoRequest} message CompleteProfilePhotoRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CompleteProfilePhotoRequest.toObject = function toObject() {
+                return {};
+            };
+
+            /**
+             * Converts this CompleteProfilePhotoRequest to JSON.
+             * @function toJSON
+             * @memberof rental.v1.CompleteProfilePhotoRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CompleteProfilePhotoRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return CompleteProfilePhotoRequest;
+        })();
+
+        v1.ClearProfilePhotoRequest = (function() {
+
+            /**
+             * Properties of a ClearProfilePhotoRequest.
+             * @memberof rental.v1
+             * @interface IClearProfilePhotoRequest
+             */
+
+            /**
+             * Constructs a new ClearProfilePhotoRequest.
+             * @memberof rental.v1
+             * @classdesc Represents a ClearProfilePhotoRequest.
+             * @implements IClearProfilePhotoRequest
+             * @constructor
+             * @param {rental.v1.IClearProfilePhotoRequest=} [properties] Properties to set
+             */
+            function ClearProfilePhotoRequest(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Creates a new ClearProfilePhotoRequest instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IClearProfilePhotoRequest=} [properties] Properties to set
+             * @returns {rental.v1.ClearProfilePhotoRequest} ClearProfilePhotoRequest instance
+             */
+            ClearProfilePhotoRequest.create = function create(properties) {
+                return new ClearProfilePhotoRequest(properties);
+            };
+
+            /**
+             * Encodes the specified ClearProfilePhotoRequest message. Does not implicitly {@link rental.v1.ClearProfilePhotoRequest.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IClearProfilePhotoRequest} message ClearProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ClearProfilePhotoRequest.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ClearProfilePhotoRequest message, length delimited. Does not implicitly {@link rental.v1.ClearProfilePhotoRequest.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {rental.v1.IClearProfilePhotoRequest} message ClearProfilePhotoRequest message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ClearProfilePhotoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ClearProfilePhotoRequest message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.ClearProfilePhotoRequest} ClearProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ClearProfilePhotoRequest.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.ClearProfilePhotoRequest();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ClearProfilePhotoRequest message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.ClearProfilePhotoRequest} ClearProfilePhotoRequest
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ClearProfilePhotoRequest.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ClearProfilePhotoRequest message.
+             * @function verify
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ClearProfilePhotoRequest.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+
+            /**
+             * Creates a ClearProfilePhotoRequest message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.ClearProfilePhotoRequest} ClearProfilePhotoRequest
+             */
+            ClearProfilePhotoRequest.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.ClearProfilePhotoRequest)
+                    return object;
+                return new $root.rental.v1.ClearProfilePhotoRequest();
+            };
+
+            /**
+             * Creates a plain object from a ClearProfilePhotoRequest message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @static
+             * @param {rental.v1.ClearProfilePhotoRequest} message ClearProfilePhotoRequest
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ClearProfilePhotoRequest.toObject = function toObject() {
+                return {};
+            };
+
+            /**
+             * Converts this ClearProfilePhotoRequest to JSON.
+             * @function toJSON
+             * @memberof rental.v1.ClearProfilePhotoRequest
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ClearProfilePhotoRequest.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ClearProfilePhotoRequest;
+        })();
+
+        v1.ClearProfilePhotoReponse = (function() {
+
+            /**
+             * Properties of a ClearProfilePhotoReponse.
+             * @memberof rental.v1
+             * @interface IClearProfilePhotoReponse
+             */
+
+            /**
+             * Constructs a new ClearProfilePhotoReponse.
+             * @memberof rental.v1
+             * @classdesc Represents a ClearProfilePhotoReponse.
+             * @implements IClearProfilePhotoReponse
+             * @constructor
+             * @param {rental.v1.IClearProfilePhotoReponse=} [properties] Properties to set
+             */
+            function ClearProfilePhotoReponse(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * Creates a new ClearProfilePhotoReponse instance using the specified properties.
+             * @function create
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IClearProfilePhotoReponse=} [properties] Properties to set
+             * @returns {rental.v1.ClearProfilePhotoReponse} ClearProfilePhotoReponse instance
+             */
+            ClearProfilePhotoReponse.create = function create(properties) {
+                return new ClearProfilePhotoReponse(properties);
+            };
+
+            /**
+             * Encodes the specified ClearProfilePhotoReponse message. Does not implicitly {@link rental.v1.ClearProfilePhotoReponse.verify|verify} messages.
+             * @function encode
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IClearProfilePhotoReponse} message ClearProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ClearProfilePhotoReponse.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+
+            /**
+             * Encodes the specified ClearProfilePhotoReponse message, length delimited. Does not implicitly {@link rental.v1.ClearProfilePhotoReponse.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {rental.v1.IClearProfilePhotoReponse} message ClearProfilePhotoReponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            ClearProfilePhotoReponse.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+
+            /**
+             * Decodes a ClearProfilePhotoReponse message from the specified reader or buffer.
+             * @function decode
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {rental.v1.ClearProfilePhotoReponse} ClearProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ClearProfilePhotoReponse.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.rental.v1.ClearProfilePhotoReponse();
+                while (reader.pos < end) {
+                    let tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a ClearProfilePhotoReponse message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {rental.v1.ClearProfilePhotoReponse} ClearProfilePhotoReponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            ClearProfilePhotoReponse.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a ClearProfilePhotoReponse message.
+             * @function verify
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            ClearProfilePhotoReponse.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+
+            /**
+             * Creates a ClearProfilePhotoReponse message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {rental.v1.ClearProfilePhotoReponse} ClearProfilePhotoReponse
+             */
+            ClearProfilePhotoReponse.fromObject = function fromObject(object) {
+                if (object instanceof $root.rental.v1.ClearProfilePhotoReponse)
+                    return object;
+                return new $root.rental.v1.ClearProfilePhotoReponse();
+            };
+
+            /**
+             * Creates a plain object from a ClearProfilePhotoReponse message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @static
+             * @param {rental.v1.ClearProfilePhotoReponse} message ClearProfilePhotoReponse
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            ClearProfilePhotoReponse.toObject = function toObject() {
+                return {};
+            };
+
+            /**
+             * Converts this ClearProfilePhotoReponse to JSON.
+             * @function toJSON
+             * @memberof rental.v1.ClearProfilePhotoReponse
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            ClearProfilePhotoReponse.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return ClearProfilePhotoReponse;
+        })();
+
         v1.ProfileService = (function() {
 
             /**
@@ -3352,6 +4526,138 @@ export const rental = $root.rental = (() => {
              * @instance
              * @param {rental.v1.IClearProfileRequest} request ClearProfileRequest message or plain object
              * @returns {Promise<rental.v1.Profile>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link rental.v1.ProfileService#getProfilePhoto}.
+             * @memberof rental.v1.ProfileService
+             * @typedef GetProfilePhotoCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {rental.v1.GetProfilePhotoReponse} [response] GetProfilePhotoReponse
+             */
+
+            /**
+             * Calls GetProfilePhoto.
+             * @function getProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.IGetProfilePhotoRequest} request GetProfilePhotoRequest message or plain object
+             * @param {rental.v1.ProfileService.GetProfilePhotoCallback} callback Node-style callback called with the error, if any, and GetProfilePhotoReponse
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ProfileService.prototype.getProfilePhoto = function getProfilePhoto(request, callback) {
+                return this.rpcCall(getProfilePhoto, $root.rental.v1.GetProfilePhotoRequest, $root.rental.v1.GetProfilePhotoReponse, request, callback);
+            }, "name", { value: "GetProfilePhoto" });
+
+            /**
+             * Calls GetProfilePhoto.
+             * @function getProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.IGetProfilePhotoRequest} request GetProfilePhotoRequest message or plain object
+             * @returns {Promise<rental.v1.GetProfilePhotoReponse>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link rental.v1.ProfileService#createProfilePhoto}.
+             * @memberof rental.v1.ProfileService
+             * @typedef CreateProfilePhotoCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {rental.v1.CreateProfilePhotoReponse} [response] CreateProfilePhotoReponse
+             */
+
+            /**
+             * Calls CreateProfilePhoto.
+             * @function createProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.ICreateProfilePhotoRequest} request CreateProfilePhotoRequest message or plain object
+             * @param {rental.v1.ProfileService.CreateProfilePhotoCallback} callback Node-style callback called with the error, if any, and CreateProfilePhotoReponse
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ProfileService.prototype.createProfilePhoto = function createProfilePhoto(request, callback) {
+                return this.rpcCall(createProfilePhoto, $root.rental.v1.CreateProfilePhotoRequest, $root.rental.v1.CreateProfilePhotoReponse, request, callback);
+            }, "name", { value: "CreateProfilePhoto" });
+
+            /**
+             * Calls CreateProfilePhoto.
+             * @function createProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.ICreateProfilePhotoRequest} request CreateProfilePhotoRequest message or plain object
+             * @returns {Promise<rental.v1.CreateProfilePhotoReponse>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link rental.v1.ProfileService#completeProfilePhoto}.
+             * @memberof rental.v1.ProfileService
+             * @typedef CompleteProfilePhotoCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {rental.v1.Identity} [response] Identity
+             */
+
+            /**
+             * Calls CompleteProfilePhoto.
+             * @function completeProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.ICompleteProfilePhotoRequest} request CompleteProfilePhotoRequest message or plain object
+             * @param {rental.v1.ProfileService.CompleteProfilePhotoCallback} callback Node-style callback called with the error, if any, and Identity
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ProfileService.prototype.completeProfilePhoto = function completeProfilePhoto(request, callback) {
+                return this.rpcCall(completeProfilePhoto, $root.rental.v1.CompleteProfilePhotoRequest, $root.rental.v1.Identity, request, callback);
+            }, "name", { value: "CompleteProfilePhoto" });
+
+            /**
+             * Calls CompleteProfilePhoto.
+             * @function completeProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.ICompleteProfilePhotoRequest} request CompleteProfilePhotoRequest message or plain object
+             * @returns {Promise<rental.v1.Identity>} Promise
+             * @variation 2
+             */
+
+            /**
+             * Callback as used by {@link rental.v1.ProfileService#clearProfilePhoto}.
+             * @memberof rental.v1.ProfileService
+             * @typedef ClearProfilePhotoCallback
+             * @type {function}
+             * @param {Error|null} error Error, if any
+             * @param {rental.v1.ClearProfilePhotoReponse} [response] ClearProfilePhotoReponse
+             */
+
+            /**
+             * Calls ClearProfilePhoto.
+             * @function clearProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.IClearProfilePhotoRequest} request ClearProfilePhotoRequest message or plain object
+             * @param {rental.v1.ProfileService.ClearProfilePhotoCallback} callback Node-style callback called with the error, if any, and ClearProfilePhotoReponse
+             * @returns {undefined}
+             * @variation 1
+             */
+            Object.defineProperty(ProfileService.prototype.clearProfilePhoto = function clearProfilePhoto(request, callback) {
+                return this.rpcCall(clearProfilePhoto, $root.rental.v1.ClearProfilePhotoRequest, $root.rental.v1.ClearProfilePhotoReponse, request, callback);
+            }, "name", { value: "ClearProfilePhoto" });
+
+            /**
+             * Calls ClearProfilePhoto.
+             * @function clearProfilePhoto
+             * @memberof rental.v1.ProfileService
+             * @instance
+             * @param {rental.v1.IClearProfilePhotoRequest} request ClearProfilePhotoRequest message or plain object
+             * @returns {Promise<rental.v1.ClearProfilePhotoReponse>} Promise
              * @variation 2
              */
 

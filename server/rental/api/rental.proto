@@ -93,8 +93,27 @@ message Identity{
 }
 message GetProfileRequest{}
 message ClearProfileRequest{}
+
+message GetProfilePhotoRequest{}
+message GetProfilePhotoReponse{
+    string url = 1;
+}
+message CreateProfilePhotoRequest{}
+message CreateProfilePhotoReponse{
+    string upload_url = 1;
+}
+
+message CompleteProfilePhotoRequest{}
+
+message ClearProfilePhotoRequest{}
+message ClearProfilePhotoReponse{}
 service ProfileService{
     rpc GetProfile (GetProfileRequest) returns (Profile);
     rpc SubmitProfile (Identity) returns (Profile);
     rpc ClearProfile (ClearProfileRequest) returns (Profile);
+
+    rpc GetProfilePhoto(GetProfilePhotoRequest) returns (GetProfilePhotoReponse);
+    rpc CreateProfilePhoto(CreateProfilePhotoRequest) returns (CreateProfilePhotoReponse);
+    rpc CompleteProfilePhoto(CompleteProfilePhotoRequest) returns (Identity);
+    rpc ClearProfilePhoto (ClearProfilePhotoRequest) returns(ClearProfilePhotoReponse);
 }
