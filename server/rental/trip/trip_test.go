@@ -125,11 +125,14 @@ type carManager struct {
 	unlockErr error
 }
 
-func (c *carManager) Verfigy(context.Context, id.CarID, *rentalpb.Location) error {
-	return c.verifyErr
+func (cm *carManager) Verfigy(context.Context, id.CarID, *rentalpb.Location) error {
+	return cm.verifyErr
 }
-func (c *carManager) Unlock(context.Context, id.CarID) error {
-	return c.unlockErr
+func (cm *carManager) Unlock(c context.Context, cid id.CarID, aid id.AccountID, tid id.TripID, avatarURL string) error {
+	return cm.unlockErr
+}
+func (cm *carManager) Lock(c context.Context, cid id.CarID) error {
+	return cm.unlockErr
 }
 func TestGetTripWithTripID(t *testing.T) {
 	c := auth.ContestWithAccontId(context.Background(), id.AccountID("6231952cb3b93c934db10058"))

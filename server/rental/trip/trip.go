@@ -6,6 +6,7 @@ import (
 	"coolcar/rental/trip/dao"
 	"coolcar/shared/auth"
 	"coolcar/shared/id"
+	"coolcar/shared/mongo/objid"
 	"fmt"
 	"math/rand"
 	"time"
@@ -31,8 +32,10 @@ type ProfileManager interface {
 
 type CarManager interface {
 	// 加入人的位置
-	Verfigy(context.Context, id.CarID, *rentalpb.Location) error
-	Unlock(context.Context, id.CarID) error
+	// Verfigy来判断车可不可以被开锁
+	Verfigy(c context.Context, cid id.CarID, loc *rentalpb.Location) error
+	Unlock(c context.Context, cid id.CarID, aid id.AccountID, tid id.TripID, avatarURL string) error
+	Lock(c context.Context, cid id.CarID) error
 }
 
 // resolves POI(Point Of Interest)
@@ -86,7 +89,7 @@ func (s *Service) CreateTrip(c context.Context, req *rentalpb.CreateTripRequest)
 	// 车辆开锁
 	// 后台开锁，因为不管开锁是否成功，行程都已经创建了
 	go func() {
-		err = s.CarManager.Unlock(context.Background(), carID)
+		err = s.CarManager.Unlock(context.Background(), carID, aid, objid.ToTripID(tr.ID), req.AvatarUrl)
 		if err != nil {
 			s.Logger.Error("cannot unlock car", zap.Error(err))
 		}
@@ -154,6 +157,11 @@ func (s *Service) UpdateTrip(c context.Context, req *rentalpb.UpdateTripRequest)
 	if req.EndTrip {
 		tr.Trip.End = tr.Trip.Current
 		tr.Trip.Status = rentalpb.TripStatus_FINISHED
+		// 先关锁在结束订单.
+		err := s.CarManager.Lock(c, id.CarID(tr.Trip.CarId))
+		if err != nil {
+			return nil, status.Errorf(codes.FailedPrecondition, "cannot lock car: %v", err)
+		}
 	}
 	err = s.Mongo.UpdateTrip(c, id.TripID(req.Id), aid, tr.UpdatedAt, tr.Trip)
 	if err != nil {
