@@ -99,7 +99,7 @@ Page({
     //TODO: get car id from scan result
     wx.scanCode({
       success: async ()=>{
-        const carId = 'car123'
+        const carId = '6274e514aa9238dee553c843'
         const lockURL = routing.lock({
           car_id: carId,
         })

@@ -26,11 +26,14 @@ Page({
   /**
    * 页面的初始数据
    */
+  tripID: '',
   timer: undefined as undefined|number,
   data: {
+    location: {
+      latitude: 39.92,
+      longitude: 116.46,
+    },
     scale: 14,
-    latitude: 39.92,
-    longitude: 116.46,
     elapsed: '00:00:00',
     fee: '0.00'
   },
@@ -39,6 +42,7 @@ Page({
    */
   onLoad(opt: Record<'trip_id',string>) {
     const o: routing.DrivingOpts = opt
+    this.tripID = o.trip_id
     TripService.GetTrip(o.trip_id).then(console.log)
     this.setupLocationUpdator(),
     this.setupTimer()
@@ -78,8 +82,16 @@ Page({
     },1000)
   },
   EndTrip(){
-    wx.redirectTo({
-      url: routing.mytrips(),
+    TripService.finishTrip(this.tripID).then(() => {
+      wx.redirectTo({
+          url: routing.mytrips(),
+      })
+    }).catch(err => {
+        console.error(err)
+        wx.showToast({
+            title: '结束行程失败',
+            icon: 'none',
+        })
     })
   },
   /**

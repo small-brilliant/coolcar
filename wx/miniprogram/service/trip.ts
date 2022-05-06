@@ -29,7 +29,22 @@ export namespace TripService{
             
         })
     }
-    export function UpdateTrip(trip: rental.v1.UpdateTripRequest): Promise<rental.v1.Trip>{
+    export function updateTripPos(id: string, loc?: rental.v1.ILocation) {
+        return updateTrip({
+            id,
+            current: loc,
+        })
+    }
+    export function finishTrip(id: string) {
+        return updateTrip({
+            id,
+            endTrip: true,
+        })
+    }
+    export function updateTrip(trip: rental.v1.IUpdateTripRequest): Promise<rental.v1.Trip>{
+        if (!trip.id) {
+            return Promise.reject("must specify id")
+        }
         return Coolcar.sendRequestWithAuthRetry({
             method: "PUT",
             path: `/v1/trip/${trip.id}`,
