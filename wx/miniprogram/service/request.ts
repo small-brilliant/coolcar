@@ -3,8 +3,9 @@ import { auth } from "./proto_gen/auth/auth_pb"
 
 export namespace Coolcar{
     // 服务器地址
-    const serverAddr = 'http://localhost:8080'
-    const AUTH_ERR = 'AUTH_ERR'
+    export const serverAddr = 'http://localhost:8080'
+    export const AUTH_ERR = 'AUTH_ERR'
+    export const wsAddr = 'ws://localhost:9090'
     const authData = {
         token: '',
         expiryMs: 0,

@@ -2,6 +2,7 @@
 // 获取应用实例
 
 import { IAppOption } from "../../appoption"
+import { CarService } from "../../service/car"
 import { ProfileService } from "../../service/profile"
 import { rental } from "../../service/proto_gen/rental/rental_pb"
 import { TripService } from "../../service/trip"
@@ -11,6 +12,7 @@ const app = getApp<IAppOption>()
 const img = '/resources/car.jpg'
 
 Page({
+  socket: undefined as WechatMiniprogram.SocketTask | undefined,
   data: {
     scale: 16,
     latitude: 39.92,
@@ -67,8 +69,17 @@ Page({
         avatarUrl: app.globalData.userInfo.avatarUrl
       })
     }
+
+    // websocket收消息
+    this.socket = CarService.subscribe(car => {
+      console.log(car)
+    })
   },
   onMyLocationTap(){
+    //借用，测试websocket
+    this.socket?.close({
+    })
+
     wx.getLocation({
       type: 'gcj02',
       success: res=>{

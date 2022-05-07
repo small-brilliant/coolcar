@@ -3,18 +3,15 @@ package sim
 import (
 	"context"
 	carpb "coolcar/car/api/gen/v1"
+	"coolcar/car/mq"
 	"time"
 
 	"go.uber.org/zap"
 )
 
-//从消息队列收消息
-type Subscriber interface {
-	Subscribe(context.Context) (ch chan *carpb.CarEntity, cleanUp func(), err error)
-}
 type Controller struct {
 	CarService carpb.CarServiceClient
-	Subscriber Subscriber
+	Subscriber mq.Subscriber
 	Logger     *zap.Logger
 }
 

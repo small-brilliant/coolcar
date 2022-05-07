@@ -4,6 +4,7 @@ import (
 	"context"
 	carpb "coolcar/car/api/gen/v1"
 	"coolcar/car/dao"
+	"coolcar/car/mq"
 	"coolcar/shared/id"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,10 +16,7 @@ import (
 type Service struct {
 	Mongo     *dao.Mongo
 	Logger    *zap.Logger
-	Publisher Publisher
-}
-type Publisher interface {
-	Publish(context.Context, *carpb.CarEntity) error
+	Publisher mq.Publisher
 }
 
 func (s *Service) CreateCar(c context.Context, req *carpb.CreateCarRequest) (*carpb.CarEntity, error) {

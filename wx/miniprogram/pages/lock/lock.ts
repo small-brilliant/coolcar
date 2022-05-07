@@ -1,4 +1,6 @@
 import { IAppOption } from "../../appoption"
+import { CarService } from "../../service/car"
+import { car } from "../../service/proto_gen/car/car_pb"
 import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 
@@ -8,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   carID: "",
+  carRefresher: 0,
   data: {
     avatarUrl:'',
   },
@@ -36,28 +39,32 @@ Page({
             latitude:loc.latitude,
             longitude:loc.longitude,
           },
+          avatarUrl: this.data.avatarUrl,
         })
         wx.showLoading({
           title:'开锁中',
           mask: true,
         })
+        this.carRefresher = setInterval(async() =>{
+          const c = await CarService.getCar(this.carID)
+          if(c.status === car.v1.CarStatus.UNLOCKED){
+            this.clearRefresher()
+            wx.redirectTo({
+              // url:`/pages/driving/driving?trip-id=${tripId}`,
+              url: routing.driving({
+                trip_id: trip.id!
+              }),
+              complete: ()=>{
+                wx.hideLoading()
+              }
+            })
+          }
+        },2000)
         if (!trip.id){
           console.error(trip)
           console.error("no tripID in response",trip)
           return
         }
-        setTimeout(() => {
-          wx.redirectTo({
-            // url:`/pages/driving/driving?trip-id=${tripId}`,
-            url: routing.driving({
-              trip_id: trip.id!
-            }),
-            complete: ()=>{
-              wx.hideLoading()
-            }
-          })
-        },2000)
-
       },
       fail: ()=>{
         wx.showToast({
@@ -66,6 +73,19 @@ Page({
         })
       }
     })
+  },
+  clearRefresher(){
+    if (this.carRefresher){
+      clearInterval(this.carRefresher)
+      this.carRefresher = 0
+    }
+  },
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload() {
+    this.clearRefresher()
+    wx.hideLoading
   },
   onGetUserInfo(){
     const app = getApp<IAppOption>()
@@ -104,13 +124,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
 
   },
 
