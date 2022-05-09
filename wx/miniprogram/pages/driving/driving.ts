@@ -1,4 +1,5 @@
 import { ProfileService } from "../../service/profile"
+import { rental } from "../../service/proto_gen/rental/rental_pb"
 import { TripService } from "../../service/trip"
 import { routing } from "../../utils/routing"
 
@@ -19,8 +20,9 @@ function formatDuration(sec: number){
 function formatFee(cents: number){
   return (cents / 100).toFixed(2)
 }
-
-
+const updateIntervalSec = 5
+const initialLat = 30
+const initialLng = 120
 Page({
 
   /**
@@ -35,7 +37,17 @@ Page({
     },
     scale: 14,
     elapsed: '00:00:00',
-    fee: '0.00'
+    fee: '0.00',
+    markers: [
+      {
+          iconPath: "/resources/car.png",
+          id: 0,
+          latitude: 39.92,
+          longitude: 116.46,
+          width: 20,
+          height: 20,
+      },
+  ],
   },
   /**
    * 生命周期函数--监听页面加载
@@ -45,7 +57,7 @@ Page({
     this.tripID = o.trip_id
     TripService.GetTrip(o.trip_id).then(console.log)
     this.setupLocationUpdator(),
-    this.setupTimer()
+    this.setupTimer(o.trip_id)
   },
   onUnload(){
     wx.stopLocationUpdate()
@@ -69,17 +81,47 @@ Page({
   /**
    * 计费
    */
-  setupTimer(){
-    let elapsedSec = 0
-    let cents = 0
-    this.timer = setInterval(()=>{
-      elapsedSec++
-      cents += centPerSec
+  async setupTimer(tripID: string){
+    const trip = await TripService.GetTrip(tripID)
+    if (trip.status !== rental.v1.TripStatus.IN_PROGRESS) {
+      console.error('trip not in progress')
+      return
+    }
+    let secSinceLastUpdate = 0
+    let lastUpdateDurationSec = trip.current!.timestampSec! - trip.start!.timestampSec!
+    const toLocation = (trip: rental.v1.ITrip) => ({
+      latitude: trip.current?.location?.latitude || initialLat,
+      longitude: trip.current?.location?.longitude || initialLng,
+    })
+    const location = toLocation(trip)
+    this.data.markers[0].latitude = location.latitude
+    this.data.markers[0].longitude = location.longitude
+    this.setData({
+        elapsed: formatDuration(lastUpdateDurationSec),
+        fee: formatFee(trip.current!.feeCent!),
+        location,
+        markers: this.data.markers,
+    })
+    this.timer = setInterval(() => {
+      secSinceLastUpdate++
+      if (secSinceLastUpdate % updateIntervalSec === 0) {
+          TripService.GetTrip(tripID).then(trip => {
+              lastUpdateDurationSec = trip.current!.timestampSec! - trip.start!.timestampSec!
+              secSinceLastUpdate = 0
+              const location = toLocation(trip)
+              this.data.markers[0].latitude = location.latitude
+              this.data.markers[0].longitude = location.longitude
+              this.setData({
+                  fee: formatFee(trip.current!.feeCent!),
+                  location,
+                  markers: this.data.markers,
+              })
+          }).catch(console.error)
+      }
       this.setData({
-        elapsed: formatDuration(elapsedSec),
-        fee: formatFee(cents),
+          elapsed: formatDuration(lastUpdateDurationSec + secSinceLastUpdate),
       })
-    },1000)
+  }, 1000)
   },
   EndTrip(){
     TripService.finishTrip(this.tripID).then(() => {

@@ -16,6 +16,9 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// ImpersonateAccoutHeader defines the head for accountid
+const ImpersonateAccoutHeader = "impersonate-account-id"
+
 func Interceptor(publicKeyFile string) (grpc.UnaryServerInterceptor, error) {
 	f, err := os.Open(publicKeyFile)
 	if err != nil {
@@ -46,17 +49,32 @@ type interceptor struct {
 }
 
 func (i *interceptor) HandReq(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+	aid := impersonateFromContext(ctx)
+	if aid != "" {
+		fmt.Printf("impersonating %v\n", aid)
+		return handler(ContestWithAccontId(ctx, id.AccountID(aid)), req)
+	}
 	tkn, err := tokenFromContext(ctx)
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "")
 	}
-	aid, err := i.verifier.Verify(tkn)
+	aid, err = i.verifier.Verify(tkn)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "token not valid: %v", err)
 	}
 	return handler(ContestWithAccontId(ctx, id.AccountID(aid)), req)
 }
-
+func impersonateFromContext(c context.Context) string {
+	m, ok := metadata.FromIncomingContext(c)
+	if !ok {
+		return ""
+	}
+	imp := m[ImpersonateAccoutHeader]
+	if len(imp) == 0 {
+		return ""
+	}
+	return imp[0]
+}
 func tokenFromContext(c context.Context) (string, error) {
 	m, ok := metadata.FromIncomingContext(c)
 	if !ok {

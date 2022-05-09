@@ -1,0 +1,49 @@
+syntax = "proto3";
+package ai.v1;
+option go_package = "coolcar/ai/api/gen/v1;aipb";
+
+enum Gender{
+    G_NOT_SPECIFIED = 0;
+    FEMALE = 1;
+    MALE = 2;
+}
+message Location {
+    double latitude = 1;
+    double longitude = 2;
+}
+message Identity{
+    string lic_number=1;
+    string name = 2;
+    Gender gender = 3;
+    int64 birth_date_millis = 4;
+}
+message LicIdentityRequest{
+    bytes photo=1;
+    bool real_ai=2;
+}
+message MeasureDistanceRequest{
+    Location from = 1;
+    Location to=2;
+}
+message MeasureDistanceResponse{
+    float distance_km=1;
+}
+message SimulateCarPosRequest{
+    string car_id=1;
+    Location pos=2;
+}
+message SimulateCarPosResponse{}
+message EndSimulateCarPosRequest{
+    string car_id=1;
+}
+message CarPosUpdate{
+    string car_id=1;
+    Location pos=2;
+}
+message EndSimulateCarPosResponse{}
+service AiService{
+    rpc LicIdentity (LicIdentityRequest) returns(Identity);
+    rpc MeasureDistance (MeasureDistanceRequest) returns(MeasureDistanceResponse);
+    rpc SimulateCarPos (SimulateCarPosRequest) returns(SimulateCarPosResponse);
+    rpc EndSimulateCarPos (EndSimulateCarPosRequest) returns(EndSimulateCarPosResponse);
+}

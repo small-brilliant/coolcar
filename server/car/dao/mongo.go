@@ -45,8 +45,8 @@ func (m *Mongo) CreateCar(c context.Context) (*CarRecord, error) {
 	r := &CarRecord{
 		Car: &carpb.Car{
 			Position: &carpb.Location{
-				Latitude:  30,
-				Longitude: 120,
+				Latitude:  32.64709,
+				Longitude: 117.01743,
 			},
 			Status: carpb.CarStatus_LOCKED,
 		},
